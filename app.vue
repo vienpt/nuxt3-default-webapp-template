@@ -15,20 +15,18 @@
         <Login @navigate="navigateTo" />
       </v-app-bar>
       <v-main>
-        <MyComponent />
+        <NuxtPage />
       </v-main>
     </v-app>
   </div>
 </template>
 
 <script>
-import MyComponent from '@/components/MyComponent.vue'; // Ensure correct path
 import Login from '@/components/Login.vue';
 import Profile from '@/components/Profile.vue';
 
 export default {
   components: {
-    MyComponent,
     Login,
     Profile,
   },

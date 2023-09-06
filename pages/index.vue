@@ -3,7 +3,7 @@
 </script>
 
 <template>
-
+  <MyComponent />
 </template>
 
 <style scoped>
