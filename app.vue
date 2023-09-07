@@ -13,7 +13,7 @@
 
     <v-app-bar
         class="px-3"
-        color="grey-lighten-5"
+        color="grey-darken-5"
         flat
         height="48"
     >
@@ -28,6 +28,8 @@
           @mouseenter="dynamicIcon = 'mdi-chevron-double-right'"
       ></v-btn>
       <v-list-item-title class="header-title">Reading List</v-list-item-title>
+      <v-spacer></v-spacer>
+      <Login @navigate="(path) => navigateTo(path)" />
     </v-app-bar>
 
 <!--    content-->
@@ -48,14 +50,14 @@
 </template>
 
 <script setup lang="ts">
-type DYNAMICICON = 'mdi-chevron-double-right' | 'mdi-format-align-justify'
+type DYNAMICICON = 'mdi-chevron-double-right' | 'mdi-menu'
 
 const nav = ref(true)
 const isShowDynamicMenu = ref(false)
 
 const drawerHover = ref(false)
-const dynamicIcon = ref<DYNAMICICON>('mdi-format-align-justify')
-const dynamicNav = computed(() => dynamicIcon.value !== 'mdi-format-align-justify')
+const dynamicIcon = ref<DYNAMICICON>('mdi-menu')
+const dynamicNav = computed(() => dynamicIcon.value !== 'mdi-menu')
 const defaultDynamicNav = computed(() => isShowDynamicMenu.value && dynamicIcon.value === 'mdi-chevron-double-right')
 
 watch(() => defaultDynamicNav.value, (val) => {
@@ -71,13 +73,13 @@ function toggleDynamicNav() {
 function toggleNavMenu() {
   nav.value = true
   isShowDynamicMenu.value = false
-  dynamicIcon.value = 'mdi-format-align-justify'
+  dynamicIcon.value = 'mdi-menu'
 }
 </script>
 
 <style>
 .workspace:hover {
-  background-color: #f6f6f6;
+  background-color: #f6f6f6 !important;
 }
 
 .v-sheet {

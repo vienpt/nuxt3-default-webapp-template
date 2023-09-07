@@ -11,11 +11,13 @@ const links = [
   <div class="dynamic-nav">
       <v-navigation-drawer
           width="320"
-          @mouseleave="$emit('close', 'mdi-format-align-justify')">
+          color="grey-lighten-5"
+          @mouseleave="$emit('close', 'mdi-menu')">
         <v-sheet
             height="48"
             width="100%"
             class="workspace"
+            color="grey-lighten-5"
             @click="navigateTo('/')"
         >
           <v-list-item prepend-icon="mdi-account">

@@ -22,11 +22,12 @@ function showChevronMenu() {
 
 <template>
   <div class="sidebar-nav">
-    <v-navigation-drawer width="320">
+    <v-navigation-drawer color="grey-lighten-5" width="320">
       <v-sheet
           height="48"
           width="100%"
           class="workspace"
+          color="grey-lighten-5"
           @mouseenter="showChevronMenu"
           @mouseleave="showChevronMenu"
           @click="navigateTo('/')"
