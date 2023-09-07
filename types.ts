@@ -1,0 +1,1 @@
+export type DYNAMICICON = 'mdi-chevron-double-right' | 'mdi-menu'

@@ -1,4 +1,3 @@
-<!-- components/MyComponent.vue -->
 <template>
   <v-card>
     <v-card-title>Card title</v-card-title>

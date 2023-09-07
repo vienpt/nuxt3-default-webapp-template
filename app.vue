@@ -1,6 +1,6 @@
 <template>
   <v-app id="inspire">
-    <!--    sidebar-->
+    <!-- sidebar -->
     <Transition
       name="sidebar"
       appear
@@ -8,44 +8,19 @@
       <Nav
         v-if="nav"
         :is-show-chevron-icon="false"
-        @toggle-dynamic-nav="toggleDynamicNav"
+        @toggle-dynamic-nav="toggleDrawerMenu"
         @navigate="(link) => navigateTo(link)"
       />
     </Transition>
 
+    <!-- Header -->
+    <AppBar
+      :is-show-bugger-menu="isShowBuggerMenu"
+      @toggle-drawer-menu="toggleDrawerMenu"
+    />
 
-    <v-app-bar
-      class="px-3"
-      color="grey-darken-5"
-      :flat="true"
-      height="48"
-    >
-      <v-btn
-        v-if="isShowDynamicMenu"
-        class="burger-hover-menu"
-        variant="text"
-        :icon="dynamicIcon"
-        @click.stop="toggleNavMenu"
-        @mouseleave="!dynamicNav"
-        @mouseenter="dynamicIcon = 'mdi-chevron-double-right'"
-      />
-      <v-list-item-title class="header-title">
-        Reading List
-      </v-list-item-title>
-      <v-spacer />
-      <Login @navigate="(path) => navigateTo(path)" />
-    </v-app-bar>
-
-    <!--    content-->
+    <!-- content -->
     <v-main>
-      <Transition name="dynamic-transition">
-        <DynamicNav
-          v-if="dynamicNav ?? defaultDynamicNav"
-          @close="(val) => dynamicIcon = val"
-          @navigate="(link) => navigateTo(link)"
-        />
-      </Transition>
-
       <VContainer>
         <NuxtPage />
       </VContainer>
@@ -54,25 +29,12 @@
 </template>
 
 <script setup lang="ts">
-type DYNAMICICON = 'mdi-chevron-double-right' | 'mdi-menu'
-
 const nav = ref(true)
-const isShowDynamicMenu = ref(false)
+const isShowBuggerMenu= ref(false)
 
-const dynamicIcon = ref<DYNAMICICON>('mdi-menu')
-const dynamicNav = computed(() => dynamicIcon.value !== 'mdi-menu')
-const defaultDynamicNav = computed(() => isShowDynamicMenu.value && dynamicIcon.value === 'mdi-chevron-double-right')
-
-function toggleDynamicNav() {
-  nav.value = false
-  isShowDynamicMenu.value = true
-  dynamicIcon.value = 'mdi-chevron-double-right'
-}
-
-function toggleNavMenu() {
-  nav.value = true
-  isShowDynamicMenu.value = false
-  dynamicIcon.value = 'mdi-menu'
+function toggleDrawerMenu() {
+  nav.value = !nav.value
+  isShowBuggerMenu.value = !isShowBuggerMenu.value
 }
 </script>
 
@@ -92,6 +54,7 @@ function toggleNavMenu() {
 /**
 sidebar transition
  */
+
 .sidebar-enter-active {
   animation: sideBarAdded 0.5s;
 }
@@ -105,25 +68,6 @@ sidebar transition
 }
 .sidebar-leave-active {
   animation: slideOut 0.5s reverse;
-}
-
-/**
-dynamic transition
- */
-.dynamic-transition-enter-active {
-  animation: slideIn 0.5s;
-}
-@keyframes slideIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.dynamic-transition-leave-active {
-  animation: slideOut 0.3s reverse;
 }
 
 @keyframes slideOut {
