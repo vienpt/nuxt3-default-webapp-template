@@ -3,7 +3,7 @@
 </script>
 
 <template>
-Profilseite
+  <div>hello profile</div>
 </template>
 
 <style scoped>

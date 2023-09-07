@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <MyComponent />
+  <h1>Inbox Page</h1>
 </template>
 
 <style scoped>

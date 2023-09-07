@@ -1,55 +1,131 @@
 <template>
-  <div>
-    <v-app>
-      <!-- Adding v-model to bind drawer -->
-      <v-navigation-drawer v-model="drawer">
-        <!-- Content and options for the navigation drawer -->
-        <v-list>
-          <Profile @navigate="navigateTo" />
-        </v-list>
-      </v-navigation-drawer>
-      <v-app-bar app>
-        <!-- Content and options for our App-Bar -->
-        <v-app-bar-nav-icon @click="toggleDrawer"></v-app-bar-nav-icon>
-        <v-app-bar-title>Title of the App</v-app-bar-title>
-        <Login @navigate="navigateTo" />
-      </v-app-bar>
-      <v-main>
-        <MyComponent />
-      </v-main>
-    </v-app>
-  </div>
+  <v-app id="inspire">
+    <v-navigation-drawer
+        v-if="drawerHover"
+        rail
+        border="0"
+    />
+
+    <Transition name="sidebar" appear>
+      <Nav
+          v-if="nav"
+          :isShowChevronIcon="false"
+          @toggleDynamicNav="toggleDynamicNav"
+          @navigate="(link) => navigateTo(link)"
+      />
+    </Transition>
+
+
+    <v-app-bar
+        class="px-3"
+        color="grey-lighten-5"
+        flat
+        height="48"
+    >
+
+      <v-btn
+          v-if="isShowDynamicMenu"
+          class="burger-hover-menu"
+          variant="text"
+          :icon="dynamicIcon"
+          @click.stop="toggleNavMenu"
+          @mouseleave.one="!dynamicNav"
+          @mouseenter="dynamicIcon = 'mdi-chevron-double-right'"
+      ></v-btn>
+      <v-list-item-title class="header-title">Reading List</v-list-item-title>
+    </v-app-bar>
+
+    <v-main>
+      <Transition name="dynamic-transition">
+        <DynamicNav
+            v-if="dynamicNav ?? defaultDynamicNav"
+            @close="(val) => dynamicIcon = val"
+            @navigate="(link) => navigateTo(link)"
+        />
+      </Transition>
+
+      <NuxtPage />
+    </v-main>
+  </v-app>
 </template>
 
-<script>
-import MyComponent from '@/components/MyComponent.vue'; // Ensure correct path
-import Login from '@/components/Login.vue';
-import Profile from '@/components/Profile.vue';
+<script setup lang="ts">
+type DYNAMICICON = 'mdi-chevron-double-right' | 'mdi-format-align-justify'
 
-export default {
-  components: {
-    MyComponent,
-    Login,
-    Profile,
-  },
-  data() {
-    return {
-      drawer: false,
-    };
-  },
-  methods: {
-    toggleDrawer() {
-      this.drawer = !this.drawer;
-    },
-    navigateTo(route) {
-      console.log(`Navigating to: ${route}`);
-      // Implement your navigation logic here
-      this.$router.push(route); // Navigate to the specified route
-    },
-  },
-};
+const nav = ref(true)
+const isShowDynamicMenu = ref(false)
+
+const drawerHover = ref(false)
+const dynamicIcon = ref<DYNAMICICON>('mdi-format-align-justify')
+const dynamicNav = computed(() => dynamicIcon.value !== 'mdi-format-align-justify')
+const defaultDynamicNav = computed(() => isShowDynamicMenu.value && dynamicIcon.value === 'mdi-chevron-double-right')
+
+watch(() => defaultDynamicNav.value, (val) => {
+  console.log('val', val)
+})
+
+function toggleDynamicNav() {
+  nav.value = false
+  isShowDynamicMenu.value = true
+  dynamicIcon.value = 'mdi-chevron-double-right'
+}
+
+function toggleNavMenu() {
+  nav.value = true
+  isShowDynamicMenu.value = false
+  dynamicIcon.value = 'mdi-format-align-justify'
+}
 </script>
 
-<style scoped>
-/* If you have any styles, it's best to keep them scoped to prevent them from affecting other components */
+<style>
+.workspace:hover {
+  background-color: #f6f6f6;
+}
+
+.burger-hover-menu {
+  position: absolute;
+  top: 0;
+  left: -20px;
+}
+
+.header-title {
+  margin-left: 50px;
+}
+
+.sidebar-enter-active {
+  animation: sideBarAdded 1s;
+}
+@keyframes sideBarAdded {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.dynamic-transition-enter-active {
+  animation: slideIn 1s;
+}
+@keyframes slideIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.dynamic-transition-leave-active {
+  animation: slideOut 1s reverse;
+}
+
+@keyframes slideOut {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 </style>
