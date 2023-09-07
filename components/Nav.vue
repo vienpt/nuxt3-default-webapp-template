@@ -13,6 +13,8 @@ const props = defineProps({
   }
 })
 
+defineEmits(['navigate', 'toggleDynamicNav'])
+
 const isChevron = ref(props.isShowChevronIcon)
 const links = [
   ['mdi-inbox-arrow-down', 'Inbox'],
@@ -61,7 +63,7 @@ function showChevronMenu() {
           :key="icon"
           :prepend-icon="icon"
           :title="text"
-          link
+          :link="true"
           @click="$emit('navigate', text)"
         />
       </v-list>

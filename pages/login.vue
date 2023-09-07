@@ -3,7 +3,9 @@
 </script>
 
 <template>
-Hello, world! I am the login!
+  <div>
+    Hello, world! I am the login!
+  </div>
 </template>
 
 <style scoped>
