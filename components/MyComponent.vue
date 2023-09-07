@@ -1,9 +1,9 @@
 <!-- components/MyComponent.vue -->
 <template>
   <v-card>
-    <v-card-title>Meine eigene Komponente</v-card-title>
+    <v-card-title>Card title</v-card-title>
     <v-card-text>
-      Dies ist der Inhalt meiner eigenen Komponente.
+      Card text lorem...
     </v-card-text>
   </v-card>
 </template>

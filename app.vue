@@ -1,11 +1,6 @@
 <template>
   <v-app id="inspire">
-    <v-navigation-drawer
-        v-if="drawerHover"
-        rail
-        border="0"
-    />
-
+<!--    sidebar-->
     <Transition name="sidebar" appear>
       <Nav
           v-if="nav"
@@ -35,6 +30,7 @@
       <v-list-item-title class="header-title">Reading List</v-list-item-title>
     </v-app-bar>
 
+<!--    content-->
     <v-main>
       <Transition name="dynamic-transition">
         <DynamicNav
@@ -44,7 +40,9 @@
         />
       </Transition>
 
-      <NuxtPage />
+      <VContainer>
+        <NuxtPage />
+      </VContainer>
     </v-main>
   </v-app>
 </template>
@@ -82,18 +80,19 @@ function toggleNavMenu() {
   background-color: #f6f6f6;
 }
 
+.v-sheet {
+  cursor: pointer !important;
+}
+
 .burger-hover-menu {
-  position: absolute;
-  top: 0;
   left: -20px;
 }
 
-.header-title {
-  margin-left: 50px;
-}
-
+/**
+sidebar transition
+ */
 .sidebar-enter-active {
-  animation: sideBarAdded 1s;
+  animation: sideBarAdded 0.5s;
 }
 @keyframes sideBarAdded {
   from {
@@ -103,9 +102,15 @@ function toggleNavMenu() {
     opacity: 1;
   }
 }
+.sidebar-leave-active {
+  animation: slideOut 0.5s reverse;
+}
 
+/**
+dynamic transition
+ */
 .dynamic-transition-enter-active {
-  animation: slideIn 1s;
+  animation: slideIn 0.5s;
 }
 @keyframes slideIn {
   from {
@@ -117,7 +122,7 @@ function toggleNavMenu() {
 }
 
 .dynamic-transition-leave-active {
-  animation: slideOut 1s reverse;
+  animation: slideOut 0.3s reverse;
 }
 
 @keyframes slideOut {
