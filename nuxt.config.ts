@@ -4,7 +4,11 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
     '@invictus.codes/nuxt-vuetify',
+    '@nuxtjs/eslint-module',
   ],
+  eslint: {
+    /* module options */
+  },
   vuetify: {
     /* vuetify options */
     // @TODO: list all vuetify options

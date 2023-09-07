@@ -1,44 +1,48 @@
 <template>
   <v-app id="inspire">
-<!--    sidebar-->
-    <Transition name="sidebar" appear>
+    <!--    sidebar-->
+    <Transition
+      name="sidebar"
+      appear
+    >
       <Nav
-          v-if="nav"
-          :isShowChevronIcon="false"
-          @toggleDynamicNav="toggleDynamicNav"
-          @navigate="(link) => navigateTo(link)"
+        v-if="nav"
+        :is-show-chevron-icon="false"
+        @toggle-dynamic-nav="toggleDynamicNav"
+        @navigate="(link) => navigateTo(link)"
       />
     </Transition>
 
 
     <v-app-bar
-        class="px-3"
-        color="grey-darken-5"
-        flat
-        height="48"
+      class="px-3"
+      color="grey-darken-5"
+      :flat="true"
+      height="48"
     >
-
       <v-btn
-          v-if="isShowDynamicMenu"
-          class="burger-hover-menu"
-          variant="text"
-          :icon="dynamicIcon"
-          @click.stop="toggleNavMenu"
-          @mouseleave.one="!dynamicNav"
-          @mouseenter="dynamicIcon = 'mdi-chevron-double-right'"
-      ></v-btn>
-      <v-list-item-title class="header-title">Reading List</v-list-item-title>
-      <v-spacer></v-spacer>
+        v-if="isShowDynamicMenu"
+        class="burger-hover-menu"
+        variant="text"
+        :icon="dynamicIcon"
+        @click.stop="toggleNavMenu"
+        @mouseleave="!dynamicNav"
+        @mouseenter="dynamicIcon = 'mdi-chevron-double-right'"
+      />
+      <v-list-item-title class="header-title">
+        Reading List
+      </v-list-item-title>
+      <v-spacer />
       <Login @navigate="(path) => navigateTo(path)" />
     </v-app-bar>
 
-<!--    content-->
+    <!--    content-->
     <v-main>
       <Transition name="dynamic-transition">
         <DynamicNav
-            v-if="dynamicNav ?? defaultDynamicNav"
-            @close="(val) => dynamicIcon = val"
-            @navigate="(link) => navigateTo(link)"
+          v-if="dynamicNav ?? defaultDynamicNav"
+          @close="(val) => dynamicIcon = val"
+          @navigate="(link) => navigateTo(link)"
         />
       </Transition>
 
@@ -55,14 +59,9 @@ type DYNAMICICON = 'mdi-chevron-double-right' | 'mdi-menu'
 const nav = ref(true)
 const isShowDynamicMenu = ref(false)
 
-const drawerHover = ref(false)
 const dynamicIcon = ref<DYNAMICICON>('mdi-menu')
 const dynamicNav = computed(() => dynamicIcon.value !== 'mdi-menu')
 const defaultDynamicNav = computed(() => isShowDynamicMenu.value && dynamicIcon.value === 'mdi-chevron-double-right')
-
-watch(() => defaultDynamicNav.value, (val) => {
-  console.log('val', val)
-})
 
 function toggleDynamicNav() {
   nav.value = false
